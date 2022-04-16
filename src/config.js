@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME ||'near-spring-challenge2'
+const CONTRACT_NAME = process.env.CONTRACT_NAME ||'shijo.testnet'
 
 function getConfig(env) {
   switch (env) {

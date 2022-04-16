@@ -24,7 +24,7 @@ export default function App() {
       if (window.walletConnection.isSignedIn()) {
 
         // window.contract is set by initContract in index.js
-        window.contract.get_greeting({ account_id: window.accountId })
+        window.contract.get_greeting_by_id({ account_id: window.accountId })
           .then(greetingFromContract => {
             set_greeting(greetingFromContract)
           })
@@ -35,7 +35,7 @@ export default function App() {
     // Use an empty array to specify "only run on first render"
     // This works because signing into NEAR Wallet reloads the page
     []
-  )
+  ) 
 
   // if not signed in, return early with sign-in prompt
   if (!window.walletConnection.isSignedIn()) {
@@ -46,12 +46,7 @@ export default function App() {
           To make use of the NEAR blockchain, you need to sign in. The button
           below will sign you in using NEAR Wallet.
         </p>
-        <p>
-          By default, when your app runs in "development" mode, it connects
-          to a test network ("testnet") wallet. This works just like the main
-          network ("mainnet") wallet, but the NEAR Tokens on testnet aren't
-          convertible to other currencies – they're just for testing!
-        </p>
+       
         <p>
           Go ahead and click the button below to try it out:
         </p>
@@ -70,15 +65,7 @@ export default function App() {
       </button>
       <main>
         <h1>
-          <label
-            htmlFor="greeting"
-            style={{
-              color: 'var(--secondary)',
-              borderBottom: '2px solid var(--secondary)'
-            }}
-          >
-            {greeting}
-          </label>
+        Welcome
           {' '/* React trims whitespace around tags; insert literal space character when needed */}
           {window.accountId}!
         </h1>
@@ -96,10 +83,10 @@ export default function App() {
 
           try {
             // make an update call to the smart contract
-            await window.contract.set_greeting({
-              // pass the value that the user entered in the greeting field
-              message: newGreeting
-            })
+           await window.contract.get_greeting({ name : newGreeting })
+                .then(greetingFromContract => {
+                    set_greeting(greetingFromContract)
+          })
           } catch (e) {
             alert(
               'Something went wrong! ' +
@@ -113,7 +100,7 @@ export default function App() {
           }
 
           // update local `greeting` variable to match persisted value
-          set_greeting(newGreeting)
+         // set_greeting(newGreeting)
 
           // show Notification
           setShowNotification(true)
@@ -138,7 +125,8 @@ export default function App() {
             <div style={{ display: 'flex' }}>
               <input
                 autoComplete="off"
-                defaultValue={greeting}
+                //defaultValue={greeting}
+                placeholder = "Enter Your Name"
                 id="greeting"
                 onChange={e => setButtonDisabled(e.target.value === greeting)}
                 style={{ flex: 1 }}
@@ -147,27 +135,29 @@ export default function App() {
                 disabled={buttonDisabled}
                 style={{ borderRadius: '0 5px 5px 0' }}
               >
-                Save
+                get greeting
               </button>
             </div>
+            
           </fieldset>
+          <div >
+            <h2>
+              <label
+                htmlFor="greeting"
+                style={{
+                color: 'var(--secondary)',
+                borderBottom: '2px solid var(--secondary)'
+                }}
+                >
+              {greeting}
+              </label>
+           </h2>
+          </div>
+
         </form>
-        <p>
-          Look at that! A Hello World app! This greeting is stored on the NEAR blockchain. Check it out:
-        </p>
-        <ol>
-          <li>
-            Look in <code>src/App.js</code> and <code>src/utils.js</code> – you'll see <code>get_greeting</code> and <code>set_greeting</code> being called on <code>contract</code>. What's this?
-          </li>
-          <li>
-            Ultimately, this <code>contract</code> code is defined in <code>assembly/main.ts</code> – this is the source code for your <a target="_blank" rel="noreferrer" href="https://docs.near.org/docs/develop/contracts/overview">smart contract</a>.</li>
-          <li>
-            When you run <code>yarn dev</code>, the code in <code>assembly/main.ts</code> gets deployed to the NEAR testnet. You can see how this happens by looking in <code>package.json</code> at the <code>scripts</code> section to find the <code>dev</code> command.</li>
-        </ol>
-        <hr />
-        <p>
-          To keep learning, check out <a target="_blank" rel="noreferrer" href="https://docs.near.org">the NEAR docs</a> or look through some <a target="_blank" rel="noreferrer" href="https://examples.near.org">example apps</a>.
-        </p>
+       
+        
+       
       </main>
       {showNotification && <Notification />}
     </>
@@ -183,7 +173,7 @@ function Notification() {
         {window.accountId}
       </a>
       {' '/* React trims whitespace around tags; insert literal space character when needed */}
-      called method: 'set_greeting' in contract:
+      called method: 'get_greeting' in contract:
       {' '}
       <a target="_blank" rel="noreferrer" href={`${urlPrefix}/${window.contract.contractId}`}>
         {window.contract.contractId}

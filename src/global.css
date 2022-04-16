@@ -3,11 +3,11 @@
 }
 
 html {
-  --bg: #efefef;
-  --fg: #1e1e1e;
-  --gray: #555;
-  --light-gray: #ccc;
-  --shadow: #e6e6e6;
+  --bg: #1e1e1e;
+  --fg: #efefef;
+  --gray: #aaa;
+  --shadow: #2a2a2a;
+  --light-gray: #444;
   --success: rgb(90, 206, 132);
   --primary: #FF585D;
   --secondary: #0072CE;
@@ -30,12 +30,17 @@ main {
 }
 
 h1 {
-  background-image: url(assets/logo-black.svg);
+  background-image: url(assets/logo-white.svg);
   background-position: center 1em;
   background-repeat: no-repeat;
   background-size: auto 1.5em;
   margin-top: 0;
   padding: 3.5em 0 0.5em;
+  text-align: center;
+}
+
+h2 {
+  
   text-align: center;
 }
 
@@ -129,7 +134,7 @@ input::selection {
   color: #efefef;
 }
 input:focus {
-  box-shadow: 0 0 10em rgba(0, 0, 0, 0.02) inset;
+  box-shadow: 0 0 10em rgba(255, 255, 255, 0.02) inset;
 }
 
 code {

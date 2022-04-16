@@ -22,11 +22,11 @@ setup_alloc!();
 // Note: the names of the structs are not important when calling the smart contract, but the function names are
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize)]
-pub struct Welcome {
+pub struct HelloNear {
     records: LookupMap<String, String>,
 }
 
-impl Default for Welcome {
+impl Default for HelloNear {
   fn default() -> Self {
     Self {
       records: LookupMap::new(b"a".to_vec()),
@@ -35,25 +35,27 @@ impl Default for Welcome {
 }
 
 #[near_bindgen]
-impl Welcome {
-    pub fn set_greeting(&mut self, message: String) {
+impl HelloNear {
+    pub fn get_greeting(&mut self, name: String) -> String{
         let account_id = env::signer_account_id();
 
         // Use env::log to record logs permanently to the blockchain!
-        env::log(format!("Saving greeting '{}' for account '{}'", message, account_id,).as_bytes());
+        env::log(format!("Saving name '{}' for account '{}'", name, account_id,).as_bytes());
 
-        self.records.insert(&account_id, &message);
+        self.records.insert(&account_id, &name);
+
+        format!("Hello {}!", name)
     }
 
     // `match` is similar to `switch` in other languages; here we use it to default to "Hello" if
     // self.records.get(&account_id) is not yet defined.
     // Learn more: https://doc.rust-lang.org/book/ch06-02-match.html#matching-with-optiont
-    pub fn get_greeting(&self, account_id: String) -> String {
+    pub fn get_greeting_by_id(&self, account_id: String) -> String {
         match self.records.get(&account_id) {
-            Some(greeting) => greeting,
+            Some(name) => format!("Hello {}!", name),
             None => "Hello".to_string(),
         }
-    }
+    } 
 }
 
 /*
@@ -95,27 +97,4 @@ mod tests {
         }
     }
 
-    #[test]
-    fn set_then_get_greeting() {
-        let context = get_context(vec![], false);
-        testing_env!(context);
-        let mut contract = Welcome::default();
-        contract.set_greeting("howdy".to_string());
-        assert_eq!(
-            "howdy".to_string(),
-            contract.get_greeting("bob_near".to_string())
-        );
-    }
-
-    #[test]
-    fn get_default_greeting() {
-        let context = get_context(vec![], true);
-        testing_env!(context);
-        let contract = Welcome::default();
-        // this test did not call set_greeting so should return the default "Hello" greeting
-        assert_eq!(
-            "Hello".to_string(),
-            contract.get_greeting("francis.near".to_string())
-        );
-    }
 }
