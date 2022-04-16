@@ -46775,7 +46775,7 @@ __exportStar(require("./browser-connect"), exports);
 require("error-polyfill");
 
 },{"./key_stores/browser-index":"../node_modules/near-api-js/lib/key_stores/browser-index.js","./common-index":"../node_modules/near-api-js/lib/common-index.js","./browser-connect":"../node_modules/near-api-js/lib/browser-connect.js","error-polyfill":"../node_modules/error-polyfill/index.js"}],"config.js":[function(require,module,exports) {
-const CONTRACT_NAME = "dev-1650114593614-93342473530103" || 'shijo.testnet';
+const CONTRACT_NAME = 'shijo.testnet';
 
 function getConfig(env) {
   switch (env) {
@@ -46989,7 +46989,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 const {
   networkId
-} = (0, _config.default)("development" || 'development');
+} = (0, _config.default)("development" || 'testnet');
 
 function App() {
   // use React Hooks to store greeting in component state
@@ -47175,7 +47175,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "43145" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45459" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
